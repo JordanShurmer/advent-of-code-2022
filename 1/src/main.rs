@@ -9,10 +9,7 @@ fn main() {
 
     // sum each group
     let mut totals: Vec<i32> = elves_calories.map(|elf| {
-        elf.split("\n")
-            .map(str::parse::<i32>)
-            .filter_map(|food| food.ok())
-            .sum::<i32>()
+        elf.split("\n").filter_map(to_int).sum::<i32>()
     }).collect();
 
     // find the highest
@@ -23,4 +20,6 @@ fn main() {
 
 }
 
-
+fn to_int(s: &str) -> Option<i32> {
+    s.parse().ok()
+}
