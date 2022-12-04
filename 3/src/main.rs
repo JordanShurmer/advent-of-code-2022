@@ -1,3 +1,4 @@
+#![feature(iter_array_chunks)]
 use std::collections::HashSet;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
@@ -35,6 +36,27 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .sum();
 
     println!("part_1 total: {}", part_1);
+
+
+    let input = BufReader::new(File::open("input.txt")?);
+    let part_2: u32 = input.lines()
+        .filter_map(|line| line.ok())
+
+        // groups of 3 at a time
+        .array_chunks::<3>()
+
+        // each elf as a set of chars
+        .map(|group| group.map(|s| s.chars().collect::<HashSet<_>>()))
+
+        // intersect of all 3
+        .flat_map(|group| &(&group[0] & &group[1]) & &group[2])
+
+        //compute the score
+        .map(score)
+        .sum();
+
+
+    println!("part_2 total: {}", part_2);
 
     Ok(())
 }
