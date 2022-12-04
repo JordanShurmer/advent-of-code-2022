@@ -5,12 +5,12 @@ use std::io::{BufRead, BufReader};
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let input = BufReader::new(File::open("input.txt")?);
 
-    let total: u32 = input.lines()
+    let part_1: u32 = input.lines()
         .filter_map(|line| line.ok())
 
         // split the rucksack into equal compartments
         .map(|rucksack| {
-            let (compartment_1, compartment_2) = rucksack.split_at(rucksack.len()/2);
+            let (compartment_1, compartment_2) = rucksack.split_at(rucksack.len() / 2);
             // not sure why I cant just return the .split_at directly.
             // spent to long trying things.. went with the explicit thing here
             (compartment_1.to_owned(), compartment_2.to_owned())
@@ -25,17 +25,16 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         // .inspect(|thing| println!("{:?}", thing))
 
         // get the intersection of both compartments
-        .map(|(set_1, set_2)| set_1.intersection(&set_2).copied().collect::<HashSet<_>>())
+        .flat_map(|(set_1, set_2)| &set_1 & &set_2)
 
         // .inspect(|thing| println!("{:?}", thing))
 
         // compute the score of all combined
-        .flatten()
         .map(score)
 
         .sum();
 
-    println!("total: {}", total);
+    println!("part_1 total: {}", part_1);
 
     Ok(())
 }
