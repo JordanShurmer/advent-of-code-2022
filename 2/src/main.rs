@@ -3,7 +3,7 @@ use std::fs::File;
 use std::io::{BufRead, BufReader};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let input = BufReader::new(File::open("input.txt")?);
+    let input = BufReader::new(File::open(format!("{}/input.txt", env!("CARGO_MANIFEST_DIR")))?);
 
 
     // A,X rock

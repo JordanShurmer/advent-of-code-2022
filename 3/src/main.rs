@@ -4,7 +4,7 @@ use std::fs::File;
 use std::io::{BufRead, BufReader};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let input = BufReader::new(File::open("input.txt")?);
+    let input = BufReader::new(File::open(format!("{}/input.txt", env!("CARGO_MANIFEST_DIR")))?);
 
     let part_1: u32 = input.lines()
         .filter_map(|line| line.ok())
@@ -38,7 +38,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("part_1 total: {}", part_1);
 
 
-    let input = BufReader::new(File::open("input.txt")?);
+    let input = BufReader::new(File::open(format!("{}/input.txt", env!("CARGO_MANIFEST_DIR")))?);
     let part_2: u32 = input.lines()
         .filter_map(|line| line.ok())
 

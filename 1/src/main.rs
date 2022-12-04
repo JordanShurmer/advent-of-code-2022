@@ -1,7 +1,7 @@
 use std::fs::read_to_string;
 
 fn main() {
-    let input = read_to_string("input.txt").unwrap();
+    let input = read_to_string(format!("{}/input.txt", env!("CARGO_MANIFEST_DIR"))).unwrap();
 
     // Separate/Group by blank line
     let elves_calories = input.split("\n\n");
