@@ -4,11 +4,14 @@ A place to write solutions to https://adventofcode.com/2022
 
 
 Run the solution for day _n_
+
 ```
 cargo run -p day-n
+```
 
-# or
-cd n
-cargo run
+Nightly:
+
+```
+cargo +nightly run -p day-3
 ```
 
