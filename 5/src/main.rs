@@ -12,24 +12,29 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .collect::<Vec<_>>();
 
     let all_stacks: HashMap<usize, Vec<_>> = stack_specification.iter()
-        // start at the bottom of the stacks
         .rev()
-        // .inspect(|line| println!("{}", line))
-
         .flat_map(|line| line.char_indices().filter(|(_, c)| c.is_alphabetic()))
-        .map(|(i, c)| {
-            // account for the '[ ]'
-            let crate_num = match i {
-                1 => 1,
-                _ => ((i - 1) / 4) + 1
-            };
-            return (crate_num, c);
-        })
+
+        // account for the '[ ]'
+        .map(|(i, c)|(((i - 1) / 4) + 1, c))
+
         .fold(HashMap::new(), |mut stacks, row| {
             let stack = stacks.entry(row.0).or_default();
             stack.push(row.1);
             stacks
         });
+
+    // input
+    //     .filter(|line| line.starts_with("move"))
+    //     .map(|line| line.split_ascii_whitespace().filter_map(|s| s.parse::<usize>().ok()).collect::<Vec<_>>())
+    //     .for_each(|action| {
+    //         let (count, source, destination) = (action[0], action[1], action[2]);
+    //         let mut source_stack = all_stacks.get(&source).unwrap();
+    //         let mut dest_stack = all_stacks.get(&destination).unwrap();
+    //
+    //         let mut move_these = source_stack.split_off(source_stack.len() - count);
+    //         dest_stack.append(&mut move_these)
+    //     });
 
     println!("{:?}", all_stacks);
     Ok(())
